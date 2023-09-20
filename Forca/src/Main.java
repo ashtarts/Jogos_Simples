@@ -5,11 +5,14 @@ import javax.swing.JOptionPane;
 public class Main {
 
     public static void main(String[] args) {
-        Forca jogo = new Forca();
+        String[] temas = {"Frutas", "Lugares", "Nomes de Pessoas", "Cores", "Adjetivos", "Marcas", "Objetos", "Jogos", "Famosos"};
+        String temaEscolhido = (String) JOptionPane.showInputDialog(null, "Escolha um tema:",
+                "Escolha de Tema", JOptionPane.PLAIN_MESSAGE, null, temas, temas[0]);
 
-        JOptionPane.showMessageDialog(null, "a palavra é uma fruta!");
+        Forca jogo = new Forca(temaEscolhido);
+        JOptionPane.showMessageDialog(null, "A palavra é relacionada ao tema: " + temaEscolhido);
 
-        while (!jogo.jogoAcabou()) {
+        while (!jogo.terminou()) {
             String letraDigitada = JOptionPane.showInputDialog("Palavra: " + jogo.getPalavraOculta() +
                     "\nTentativas restantes: " + jogo.getTentativasRestantes() +
                     "\nDigite uma letra:").toUpperCase();
