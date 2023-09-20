@@ -1,13 +1,20 @@
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Jogo {
+public class Jogo extends JPanel {
     private char[][] tabuleiro;
     private char jogadorAtual;
+    private JButton[][] botoes;
+    private boolean contraAmigo;
 
     public Jogo() {
         tabuleiro = new char[3][3];
         jogadorAtual = 'X';
         inicializarTabuleiro();
+        criarInterface();
+        escolherModoJogo();
     }
 
     private void inicializarTabuleiro() {
@@ -18,39 +25,44 @@ public class Jogo {
         }
     }
 
-    public void jogar() {
-        boolean jogoAcabou = false;
+    private void criarInterface() {
+        setLayout(new GridLayout(3, 3));
+        botoes = new JButton[3][3];
 
-        while (!jogoAcabou) {
-            exibirTabuleiro();
-            String entrada = JOptionPane.showInputDialog("Jogador " + jogadorAtual + ", digite a linha e coluna que deseja jogar (ex: 1 2):");
-
-            String[] posicoes = entrada.split(" ");
-            int linha = Integer.parseInt(posicoes[0]);
-            int coluna = Integer.parseInt(posicoes[1]);
-
-            if (linha < 1 || linha > 3 || coluna < 1 || coluna > 3) {
-                JOptionPane.showMessageDialog(null, "Posição inválida. Tente novamente.");
-                continue;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                JButton botao = new JButton();
+                botao.setFont(new Font("Arial", Font.PLAIN, 48));
+                botao.addActionListener(new BotaoListener(i, j));
+                botoes[i][j] = botao;
+                add(botao);
             }
+        }
+    }
 
-            if (tabuleiro[linha - 1][coluna - 1] != '-') {
-                JOptionPane.showMessageDialog(null, "Posição ocupada. Tente novamente.");
-                continue;
+    private void atualizarInterface() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                botoes[i][j].setText(Character.toString(tabuleiro[i][j]));
             }
+        }
+    }
 
-            tabuleiro[linha - 1][coluna - 1] = jogadorAtual;
-
+    private void realizarJogada(int linha, int coluna) {
+        if (tabuleiro[linha][coluna] == '-' && !jogoAcabou()) {
+            tabuleiro[linha][coluna] = jogadorAtual;
+            atualizarInterface();
             if (verificarVitoria()) {
-                exibirTabuleiro();
                 JOptionPane.showMessageDialog(null, "Jogador " + jogadorAtual + " venceu!");
-                jogoAcabou = true;
+                reiniciarJogo();
             } else if (verificarEmpate()) {
-                exibirTabuleiro();
                 JOptionPane.showMessageDialog(null, "O jogo empatou!");
-                jogoAcabou = true;
+                reiniciarJogo();
             } else {
                 jogadorAtual = (jogadorAtual == 'X') ? 'O' : 'X';
+                if (!contraAmigo) {
+                    realizarJogadaComputador();
+                }
             }
         }
     }
@@ -90,16 +102,71 @@ public class Jogo {
         return true;
     }
 
-    private void exibirTabuleiro() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("-----\n");
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                builder.append(tabuleiro[i][j]).append(" ");
-            }
-            builder.append("\n");
-        }
-        builder.append("-----");
-        JOptionPane.showMessageDialog(null, builder.toString());
+    private boolean jogoAcabou() {
+        return verificarVitoria() || verificarEmpate();
     }
-}
+
+    private void reiniciarJogo() {
+        inicializarTabuleiro();
+        jogadorAtual = 'X';
+        atualizarInterface();
+        escolherModoJogo();
+    }
+
+    private void escolherModoJogo() {
+        Object[] options = {"Contra Amigo", "Contra Computador"};
+        int escolha = JOptionPane.showOptionDialog(null,
+                "Escolha o modo de jogo:",
+                "Modo de Jogo",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+
+        contraAmigo = (escolha == 0);
+    }
+
+    private void realizarJogadaComputador() {
+        if (jogadorAtual == 'O') {
+            boolean jogadaValida = false;
+
+            while (!jogadaValida) {
+                int linha = (int) (Math.random() * 3);
+                int coluna = (int) (Math.random() * 3);
+
+                if (tabuleiro[linha][coluna] == '-') {
+                    tabuleiro[linha][coluna] = jogadorAtual;
+                    jogadaValida = true;
+                }
+            }
+
+            atualizarInterface();
+
+            if (verificarVitoria()) {
+                JOptionPane.showMessageDialog(null, "Jogador " + jogadorAtual + " venceu!");
+                reiniciarJogo();
+            } else if (verificarEmpate()) {
+                JOptionPane.showMessageDialog(null, "O jogo empatou!");
+                reiniciarJogo();
+            } else {
+                jogadorAtual = 'X';
+            }
+        }
+    }
+
+    private class BotaoListener implements ActionListener {
+        private int linha;
+        private int coluna;
+
+        public BotaoListener(int linha, int coluna) {
+            this.linha = linha;
+            this.coluna = coluna;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            realizarJogada(linha, coluna);
+        }
+    }
+    }
