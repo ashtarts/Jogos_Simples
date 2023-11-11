@@ -28,4 +28,4 @@ ________________________________________
 </p>
 ________________________________________
 
-Jogos feitos com o intuito de estudo.
+                                                                                           Jogos feitos com o intuito de estudo.
