@@ -1,4 +1,6 @@
-# MINHAS PRÓPRIAS VERSÕES DE JOGOS, EM JAVA
+
+ <h1 align="center"> MINHAS PRÓPRIAS VERSÕES DE JOGOS, EM JAVA </h1>
+
 
 # Jogos:
 - Forca -> fiz uma interface simples usando JOptionPane. Usuário pode escolher dentre vários temas, que fiz usando ArraysList;
