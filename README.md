@@ -1,4 +1,4 @@
-# JOGOS BÁSICOS E FAMOSOS QUE FIZ MINHA PRÓPRIAS VERSÕES EM JAVA
+# MINHAS PRÓPRIAS VERSÕES DE JOGOS, EM JAVA
 
 # Jogos:
 - Forca -> fiz uma interface simples usando JOptionPane. Usuário pode escolher dentre vários temas, que fiz usando ArraysList;
