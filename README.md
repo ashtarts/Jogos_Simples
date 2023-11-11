@@ -8,7 +8,8 @@
 <p align="side">
 <img loading="lazy" src="https://progress-bar.dev/91/?title=almost&color=GREEN&style=for-the-badge"/>
 </p>
-________________________________________
+
+_______________________________________________________
 
 
 - Jogo da Velha -> também fiz usando JOptionPane. Usuário pode escolher entre jogar contra um amigo ou contra o computador. A versão contra computador foi feita usando um randomizador simples, só pra simular uma jogada. Não é nenhuma IA, e por ser apenas um randomizador sem nenhuma leitura, se torna muito fácil ganhar o computador;
@@ -18,7 +19,8 @@ ________________________________________
 <p align="side">
 <img loading="lazy" src="https://progress-bar.dev/58/?title=halfway&color=GREEN&style=for-the-badge"/>
 </p>
-________________________________________
+
+_______________________________________________________
 
 
 - Bingo -> _ainda não terminado,_ em desenvolvimento
@@ -26,6 +28,7 @@ ________________________________________
 <p align="side">
 <img loading="lazy" src="https://progress-bar.dev/20/?title=started&color=GREEN&style=for-the-badge"/>
 </p>
-________________________________________
+
+____________________________________________________________
 
                                                                                            Jogos feitos com o intuito de estudo.
